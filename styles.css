@@ -1,0 +1,7 @@
+.main {
+  composes: button from './src/common/styles.css';
+  composes: a from './src/a/styles.css';
+  composes: b from './src/b/styles.css';
+  font-size: 14px;
+  content: 'main';
+}

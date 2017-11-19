@@ -1,0 +1,4 @@
+.a {
+  composes: button from '../common/styles.css';
+  color: blue;
+}
