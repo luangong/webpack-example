@@ -1,5 +1,5 @@
 const classNames = require('./styles.css');
-// const popover = require('../popover/index.js');
+const popover = require('../popover/index.js');
 
 console.log(classNames);
 

@@ -1,0 +1,82 @@
+@startuml
+
+!include config.uml
+
+class Compilation {
+  + compiler
+  + resolvers
+  + inputFileSystem
+  + outputOptions
+  + bail
+  + profile
+  + performance
+  ..
+  + mainTemplate
+  + chunkTemplate
+  + hotUpdateChunkTemplate
+  + moduleTemplate
+  ..
+  + semaphore
+  + entries
+  + preparedChunks
+  + entryPoints
+  + chunks
+  + namedChunks
+  + modules
+  + modules
+  - _modules
+  + cache
+  + records
+  + nextFreeModuleIndex
+  + nextFreeModuleIndex2
+  + additionalChunkAssets
+  + assets
+  + error
+  + warnings
+  + children
+  + dependencyFactories
+  + dependencyTemplates
+  + childrenCounters
+  --
+  + getStats()
+  + templatesPlugin()
+  ..
+  + addModule()
+  + buildModule()
+  + rebuildModule()
+  + findModule()
+  + getModule()
+  + sortModules()
+  + addModuleDependencies()
+  + processModuleDependencies()
+  + sortItemsWithModuleIds()
+  + applyModuleIds()
+  + createModuleAssets()
+  ..
+  + addChunk()
+  + processDependenciesBlocksForChunks()
+  + removeChunkFromDependencies()
+  + applyChunkIds()
+  + sortItemsWithChunkIds()
+  + createChunkAssets()
+  ..
+  - _addModuleChain()
+  + addEntry()
+  + prefetch()
+  + finish()
+  + seal()
+  + unseal()
+  + reportDependencyErrorsAndWarnings()
+  + assignIndex()
+  + assignDepth()
+  + summarizeDependencies()
+  ..
+  + createHash()
+  + modifyHash()
+  ..
+  + getPath()
+  + createChildCompiler()
+  + checkConstraints()
+}
+
+@enduml

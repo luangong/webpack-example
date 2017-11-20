@@ -4,6 +4,9 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const path = require('path');
 const webpack = require('webpack');
 const ManifestPlugin = require('webpack-manifest-plugin');
+const FileListPlugin = require('./filelist');
+const MyTemplatePlugin = require('./MyTemplatePlugin');
+const FunctionModulePlugin = require('webpack/lib/FunctionModulePlugin');
 
 module.exports = {
   entry: {
@@ -19,10 +22,10 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   // target: () => undefined,
-  target: (compiler) => {
+  target: compiler => {
     compiler.apply(
-      new (require('webpack/lib/FunctionModulePlugin')),
-      // new (require('webpack/lib/node/NodeSourcePlugin')),
+      new MyTemplatePlugin(),
+      new FunctionModulePlugin(),
       new webpack.LoaderTargetPlugin('web')
     );
   },
@@ -75,6 +78,7 @@ module.exports = {
       // allChunks: true
     }),
 
+    new FileListPlugin(),
     new CleanWebpackPlugin(['dist'])
   ]
 };

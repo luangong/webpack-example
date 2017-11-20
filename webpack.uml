@@ -84,7 +84,7 @@ class MainTemplate {
 
 Hook <|-- SyncBailHook
 Tapable <|-- Compiler
-Tapable <|-- Compilation
+Tapable <|-- " Compilation "
 Tapable <|-- Template
 Template <|-- MainTemplate
 
@@ -94,81 +94,201 @@ Template <|-- MainTemplate
 
 !include config.uml
 
-class Compilation {
-  + compiler
-  + resolvers
-  + inputFileSystem
-  + outputOptions
-  + bail
-  + profile
-  + performance
+class Source {
+  + source()
+  + size()
+  + node()
+  + listNode()
+  + updateHash()
   ..
-  + mainTemplate
-  + chunkTemplate
-  + hotUpdateChunkTemplate
-  + moduleTemplate
-  ..
-  + semaphore
-  + entries
-  + preparedChunks
-  + entryPoints
-  + chunks
-  + namedChunks
-  + modules
-  + modules
-  - _modules
-  + cache
-  + records
-  + nextFreeModuleIndex
-  + nextFreeModuleIndex2
-  + additionalChunkAssets
-  + assets
-  + error
-  + warnings
+  + map()
+  + sourceAndMap()
+}
+
+' class " SourceAndMapMixin " {
+'   + map()
+'   + sourceAndMap()
+' }
+
+class ConcatSource {
   + children
-  + dependencyFactories
-  + dependencyTemplates
-  + childrenCounters
   --
-  + getStats()
-  + templatesPlugin()
+  + add()
   ..
-  + addModule()
-  + buildModule()
-  + rebuildModule()
-  + findModule()
-  + getModule()
-  + sortModules()
-  + addModuleDependencies()
-  + processModuleDependencies()
-  + sortItemsWithModuleIds()
-  + applyModuleIds()
-  + createModuleAssets()
+  + source()
+  + size()
+  + node()
+  + listMap()
+  + updateHash()
+  ..
+  + map()
+  + sourceAndMap()
+}
+
+class OriginalSource {
+  - _value
+  - _name
+  --
+  + source()
+  + node()
+  + listMap()
+  + updateHash()
+  ..
+  + map()
+  + sourceAndMap()
+}
+
+class PrefixSource {
+  - _source
+  - _prefix
+  --
+  + source()
+  + node()
+  + listMap()
+  + updateHash()
+  ..
+  + map()
+  + sourceAndMap()
+}
+
+Source <|-- ConcatSource
+Source <|-- OriginalSource
+Source <|-- PrefixSource
+' " SourceAndMapMixin " o-- ConcatSource
+' " SourceAndMapMixin " o-- OriginalSource
+' " SourceAndMapMixin " o-- PrefixSource
+
+@enduml
+
+@startuml
+
+!include config.uml
+
+class Module {
+  + context
+  + reasons
+  + debugId
+  + id
+  + portableId
+  + index
+  + index2
+  + depth
+  + used
+  + usedExports
+  + providedExports
+  - _chunks
+  - _chunksDebugIdent
+  + warnings
+  + dependenciesWarnings
+  + errors
+  + dependenciesErrors
+  + strict
+  + meta
+  + optimizationBailout
+  ..
+  + entry
+  + chunks
+  --
+  + disconnect()
+  + unseal()
+  + setChunks()
+  + addChunk()
+  + removeChunk()
+  + isInChunk()
+  + getChunkIdsIdent()
+  + forEachChunk()
+  + mapChunks()
+  + getNumberOfChunks()
+  + hasEqualsChunks()
+  + addReason()
+  + removeReason()
+  + hasReasonForChunk()
+  + rewriteChunkInReasons()
+  + isUsed()
+  + isProvided()
+  + toString()
+  + needRebuild()
+  + updateHash()
+  + sortItems()
+  ..
+  + identifier()
+  + readableIdentifier()
+  + build()
+  + source()
+  + size()
+  + nameForCondition()
+}
+
+class Chunk {
+  + id
+  + ids
+  + debugId
+  + name
+  - _modules
+  + entrypoints
+  + chunks
+  + parents
+  + blocks
+  + origins
+  + files
+  + rendered
+  ..
+  + entry
+  + initial
+  + modulesIterable
+  + modules
+  --
+  + hasRuntime()
+  + isInitial()
+  + hasEntryModule()
+  + addToCollection()
   ..
   + addChunk()
-  + processDependenciesBlocksForChunks()
-  + removeChunkFromDependencies()
-  + applyChunkIds()
-  + sortItemsWithChunkIds()
-  + createChunkAssets()
+  + removeChunk()
+  + replaceChunk()
+  + getChunkMaps()
   ..
-  - _addModuleChain()
-  + addEntry()
-  + prefetch()
-  + finish()
-  + seal()
-  + unseal()
-  + reportDependencyErrorsAndWarnings()
-  + assignIndex()
-  + assignDepth()
-  + summarizeDependencies()
+  + addModule()
+  + removeModule()
+  + setModules()
+  + getNumberOfModules()
+  + forEachModule()
+  + mapModules()
+  + containsModule()
+  + getModules()
+  + moveModule()
+  + sortModules()
   ..
-  + createHash()
-  + modifyHash()
+  + addParent()
+  + removeParent()
+  + replaceParentChunk()
   ..
-  + getPath()
-  + createChildCompiler()
+  + integrate()
+  + canBeIntegrated()
+  + integratedSize()
+  ..
+  + addBlock()
+  + addOrigin()
+  + compareTo()
+  + getModulesIdent()
+  + remove()
+  + split()
+  + isEmpty()
+  + updateHash()
+  + addMultiplierAndOverhead()
+  + moduleSize()
+  + size()
+  + sortItems()
+  + toString()
   + checkConstraints()
+}
+
+class Entrypoint {
+  + name
+  + chunks
+  + unshiftChunk()
+  + insertChunk()
+  + getFiles()
 }
 
 @enduml
