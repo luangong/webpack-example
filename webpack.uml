@@ -26,14 +26,14 @@ class Hook {
   + intercept()
 }
 
-class SyncBailHook {
-  + tapAsync()
-  + tapPromise()
-  + template()
-}
+' class SyncBailHook {
+'   + tapAsync()
+'   + tapPromise()
+'   + template()
+' }
 
 class Tapable {
-  - _pluginCompat : SyncBailHook
+  - _pluginCompat
   + {static} addCompatLayer()
   + plugin()
   + apply()
@@ -82,7 +82,7 @@ class MainTemplate {
   + useChunkHash()
 }
 
-Hook <|-- SyncBailHook
+Hook <|-- " SyncBailHook "
 Tapable <|-- Compiler
 Tapable <|-- " Compilation "
 Tapable <|-- Template
@@ -125,6 +125,15 @@ class ConcatSource {
   + sourceAndMap()
 }
 
+class RawSource {
+  - _value
+  + source()
+  + map()
+  + node()
+  + listMap()
+  + updateHash()
+}
+
 class OriginalSource {
   - _value
   - _name
@@ -151,8 +160,9 @@ class PrefixSource {
   + sourceAndMap()
 }
 
-Source <|-- ConcatSource
 Source <|-- OriginalSource
+Source <|-- RawSource
+Source <|-- ConcatSource
 Source <|-- PrefixSource
 ' " SourceAndMapMixin " o-- ConcatSource
 ' " SourceAndMapMixin " o-- OriginalSource
@@ -189,8 +199,6 @@ class Module {
   + entry
   + chunks
   --
-  + disconnect()
-  + unseal()
   + setChunks()
   + addChunk()
   + removeChunk()
@@ -200,16 +208,21 @@ class Module {
   + mapChunks()
   + getNumberOfChunks()
   + hasEqualsChunks()
+  ..
   + addReason()
   + removeReason()
   + hasReasonForChunk()
   + rewriteChunkInReasons()
+  ..
   + isUsed()
   + isProvided()
   + toString()
   + needRebuild()
   + updateHash()
   + sortItems()
+  ..
+  + disconnect()
+  + unseal()
   ..
   + identifier()
   + readableIdentifier()
@@ -283,12 +296,12 @@ class Chunk {
   + checkConstraints()
 }
 
-class Entrypoint {
-  + name
-  + chunks
-  + unshiftChunk()
-  + insertChunk()
-  + getFiles()
-}
+' class Entrypoint {
+'   + name
+'   + chunks
+'   + unshiftChunk()
+'   + insertChunk()
+'   + getFiles()
+' }
 
 @enduml

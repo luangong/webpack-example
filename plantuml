@@ -4,4 +4,6 @@ set -euo pipefail
 
 [[ $# == 1 ]] || (echo "Usage: $0 filename" && exit 1)
 
-plantuml -teps -p < "$1" | epstopdf --filter | pdfcrop - $(basename "$1" .uml).pdf
+plantuml -teps -p < "$1" \
+    | epstopdf --filter --gsopts="-dFIXEDMEDIA -sPAPERSIZE=a3" \
+    | pdfcrop - $(basename "$1" .uml).pdf

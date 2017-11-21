@@ -1,3 +1,4 @@
+skinparam monochrome true
 hide circle
 hide empty members
 skinparam defaultFontName "Roboto Mono"
