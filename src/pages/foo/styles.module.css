@@ -1,0 +1,7 @@
+.foo {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  margin: 8px;
+  width: 512px;
+  height: 512px;
+}
