@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- [if IE 8 ]>    <html lang="en" class="ie8" <% if (htmlWebpackPlugin.files.manifest) { %> manifest="<%= htmlWebpackPlugin.files.manifest %>"<% } %>> <![endif]-->
+<!-- [if IE 9 ]>    <html lang="en" class="ie9" <% if (htmlWebpackPlugin.files.manifest) { %> manifest="<%= htmlWebpackPlugin.files.manifest %>"<% } %>> <![endif]-->
+<!-- [if (gt IE 9)|!(IE)]><!-->
+<html lang="en"
+  <% if (htmlWebpackPlugin.files.manifest) { %>
+    manifest="<%= htmlWebpackPlugin.files.manifest %>"
+  <% } %>
+>
+<!-- <![endif] -->
+<head>
+  <meta charset="utf-8">
+
+  <% for (const [name, content] of Object.entries(htmlWebpackPlugin.options.meta)) { %>
+    <meta name="<%= name %>" content="<%= content %>">
+  <% } %>
+
+  <!-- title -->
+  <title><%= htmlWebpackPlugin.options.title %></title>
+
+  <!-- favicon -->
+  <% if (htmlWebpackPlugin.options.favicon) { %>
+    <link rel="shortcut icon" href="<%= htmlWebpackPlugin.options.favicon%>">
+  <% } %>
+
+  <!-- css -->
+  <% for (const css of htmlWebpackPlugin.files.css) { %>
+    <link rel="stylesheet" href="<%= css %>">
+  <% } %>
+</head>
+
+<body>
+  <!-- <div style="font-size: 12px"><pre><%= JSON.stringify(htmlWebpackPlugin, null, '  ') %></pre></div> -->
+
+  <!-- appMountId -->
+  <% if (htmlWebpackPlugin.options.appMountId) { %>
+    <div id="<%= htmlWebpackPlugin.options.appMountId%>"></div>
+  <% } %>
+
+  <!-- appMountIds -->
+  <% if (htmlWebpackPlugin.options.appMountIds && htmlWebpackPlugin.options.appMountIds.length > 0) { %>
+  <% for (var index in htmlWebpackPlugin.options.appMountIds) { %>
+    <div id="<%= htmlWebpackPlugin.options.appMountIds[index]%>"></div>
+  <% } %>
+  <% } %>
+
+  <!-- global variables to attach to window -->
+  <% if (htmlWebpackPlugin.options.window) { %>
+  <script>
+    <% for (const name in htmlWebpackPlugin.options.window) { %>
+      window['<%= name %>'] = <%= JSON.stringify(htmlWebpackPlugin.options.window[name]) %>;
+    <% } %>
+  </script>
+  <% } %>
+
+  <!-- <script> tags for js assets -->
+  <% for (const js of htmlWebpackPlugin.files.js) { %>
+  <script defer src="<%= js %>"></script>
+  <% } %>
+</body>
+</html>
